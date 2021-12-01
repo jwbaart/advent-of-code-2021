@@ -1998,15 +1998,15 @@ const puzzleInput = `109
 6293
 6297
 6308`;
-
-const input: string[] = puzzleInput.split(/\r?\n/);
+const input: number[] = puzzleInput.split(/\r?\n/).map(Number);
 
 const result = input.reduce((previousValue, currentValue, currentIndex, array) => {
     if (!currentIndex) {
         return 0
     }
-    const currentNumber = Number(array[currentIndex]);
-    const previousNumber = Number(array[currentIndex - 1]);
+
+    const currentNumber = array[currentIndex];
+    const previousNumber = array[currentIndex - 1];
 
     if (currentNumber > previousNumber) {
         return ++previousValue;
