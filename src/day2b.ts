@@ -1019,7 +1019,7 @@
         distance: Number(command.split(' ')[1])
     }));
 
-    const result = input.reduce<MeasurementsTotal>((measurementsTotal, command, currentIndex, array) => {
+    const result = input.reduce<MeasurementsTotal>((measurementsTotal, command) => {
         switch (command.direction) {
             case Direction.FORWARD:
                 measurementsTotal.horizontal = measurementsTotal.horizontal + command.distance;
