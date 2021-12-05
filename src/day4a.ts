@@ -641,33 +641,25 @@
             return bingoCards
         }, [])
 
-    let bingoCardsTranposed = bingoCards.map((bingoCard) => bingoCard.reduce(($: any, row: any) => row.map((_: any, i: any) => [...($[i] || []), row[i]]), []));
-    
+    const bingoCardsTranposed = bingoCards.map((bingoCard) => bingoCard.reduce(($: any, row: any) => row.map((_: any, i: any) => [...($[i] || []), row[i]]), []));
+    bingoCards = [...bingoCards, ...bingoCardsTranposed];
+
     let winningBingoNumber = 0;
     drawnBingoNumbers.some((drawnBingoNumber) => {
         winningBingoNumber = drawnBingoNumber
         const filterDrawnBingoNumber = setFilterDrawnBingoNumber(drawnBingoNumber)
 
         bingoCards = bingoCards.map(filterDrawnBingoNumber)
-        bingoCardsTranposed = bingoCardsTranposed.map(filterDrawnBingoNumber)
 
-        return hasABingoCardEmptyRow(bingoCards) || hasABingoCardEmptyRow(bingoCardsTranposed)
+        return hasABingoCardEmptyRow(bingoCards)
     })
+    console.log('winningBingoNumber', winningBingoNumber)
 
     const bingoCardWithEmptyRow: BingoCard = bingoCards.filter(bingoCard => bingoCard.some(bingoRow => !bingoRow.length)).pop()
-    const bingoCardTransposedWithEmptyRow: BingoCard = bingoCardsTranposed.filter(bingoCard => bingoCard.some(bingoRow => !bingoRow.length)).pop()
-    let result = 0;
 
-    if (bingoCardWithEmptyRow) {
-        result = bingoCardWithEmptyRow
-            .filter(bingoRow => !!bingoRow.length)
-            .reduce<number>(calculateBingoCardSum, 0)
-    } 
-    if (bingoCardTransposedWithEmptyRow) {
-        result = bingoCardTransposedWithEmptyRow
-            .filter(bingoRow => !!bingoRow.length)
-            .reduce<number>(calculateBingoCardSum, 0)
-    } 
+    const result = bingoCardWithEmptyRow
+        .filter(bingoRow => !!bingoRow.length)
+        .reduce<number>(calculateBingoCardSum, 0)
 
     console.log('result', result * winningBingoNumber)
 })()
